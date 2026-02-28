@@ -21,3 +21,7 @@ Aplikacja do planowania nauki oraz zarządzania zadaniami studenta.
 | Frontend | Azure App Service |
 | Backend | Azure App Service |
 | Database | Azure SQL |
+
+## Status projektu
+- [x] Artefakt 1
+- [x] Artefakt 2
