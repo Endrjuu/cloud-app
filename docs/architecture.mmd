@@ -1,0 +1,8 @@
+flowchart LR
+User -->|HTTPS 5173| Frontend
+Frontend -->|REST API 3000| Backend
+Backend -->|TCP 5432| Database
+
+Frontend[React]
+Backend[Node API]
+Database[(PostgreSQL)]
