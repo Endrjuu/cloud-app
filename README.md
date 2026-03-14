@@ -25,3 +25,5 @@ Aplikacja do planowania nauki oraz zarządzania zadaniami studenta.
 ## Status projektu
 - [x] Artefakt 1
 - [x] Artefakt 2
+- [x] Artefakt 3
+- [x] Artefakt 4

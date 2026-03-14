@@ -1,29 +1,42 @@
-version: '3.9'
+version: '3.8'
 
 services:
-
-  frontend:
-    image: node:20
-    container_name: frontend
+  db:
+    image: postgres:16-alpine
+    container_name: studyplanner-db
+    environment:
+      POSTGRES_DB: studyplanner
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "5173:5173"
-    command: sleep infinity
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   backend:
-    image: node:20
-    container_name: backend
+    build: ./backend
+    container_name: studyplanner-backend
     ports:
-      - "3000:3000"
-    command: sleep infinity
+      - "8081:8081"
+    environment:
+      PORT: 8081
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: studyplanner
+      DB_USER: postgres
+      DB_PASSWORD: postgres
     depends_on:
       - db
 
-  db:
-    image: postgres
-    container_name: database
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: studyplanner
+  frontend:
+    build: ./frontend
+    container_name: studyplanner-frontend
     ports:
-      - "5432:5432"
+      - "8080:80"
+    environment:
+      VITE_API_URL: http://localhost:8081
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
