@@ -26,9 +26,7 @@ async function init() {
       CREATE TABLE IF NOT EXISTS tasks (
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
-        description TEXT,
-        status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'done')),
-        due_date DATE,
+        completed BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT NOW()
       )
     `);

@@ -1,14 +1,20 @@
 // repositories/tasksRepository.js
-const { pool } = require('../db');
+// Bezpośredni dostęp do bazy danych – mapowanie na DTO
 
+const { pool } = require('../db');
+const TaskReadDto = require('../dtos/taskReadDto');
+
+// GetAll – zwraca listę DTO zamiast surowych encji
 const findAll = async () => {
   const result = await pool.query('SELECT * FROM tasks ORDER BY id ASC');
-  return result.rows;
+  return result.rows.map(row => new TaskReadDto(row)); // mapowanie na DTO
 };
 
+// GetById – zwraca DTO zamiast czystej encji
 const findById = async (id) => {
   const result = await pool.query('SELECT * FROM tasks WHERE id = $1', [id]);
-  return result.rows[0] || null;
+  if (!result.rows[0]) return null;
+  return new TaskReadDto(result.rows[0]); // mapowanie na DTO
 };
 
 const create = async ({ title, completed }) => {
@@ -16,7 +22,7 @@ const create = async ({ title, completed }) => {
     'INSERT INTO tasks (title, completed) VALUES ($1, $2) RETURNING *',
     [title, completed ?? false]
   );
-  return result.rows[0];
+  return new TaskReadDto(result.rows[0]); // DTO po zapisie
 };
 
 const update = async (id, { title, completed }) => {
@@ -27,7 +33,8 @@ const update = async (id, { title, completed }) => {
      WHERE id = $3 RETURNING *`,
     [title ?? null, completed ?? null, id]
   );
-  return result.rows[0] || null;
+  if (!result.rows[0]) return null;
+  return new TaskReadDto(result.rows[0]); // DTO po aktualizacji
 };
 
 const remove = async (id) => {

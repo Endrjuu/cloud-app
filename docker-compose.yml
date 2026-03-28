@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:16-alpine
@@ -12,6 +10,13 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - cloud-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   backend:
     build: ./backend
@@ -26,17 +31,24 @@ services:
       DB_USER: postgres
       DB_PASSWORD: postgres
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    networks:
+      - cloud-network
+    restart: on-failure
 
   frontend:
     build: ./frontend
     container_name: studyplanner-frontend
     ports:
       - "8080:80"
-    environment:
-      VITE_API_URL: http://localhost:8081
     depends_on:
       - backend
+    networks:
+      - cloud-network
 
 volumes:
   pgdata:
+
+networks:
+  cloud-network:
