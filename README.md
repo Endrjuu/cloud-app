@@ -29,3 +29,4 @@ Aplikacja do planowania nauki oraz zarządzania zadaniami studenta.
 - [x] Artefakt 4
 - [x] Artefakt 5
 - [x] Artefakt 6
+- [x] Artefakt 7
