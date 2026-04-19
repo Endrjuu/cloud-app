@@ -86,7 +86,7 @@ export default function Dashboard() {
         <button
           onClick={handleCreate}
           disabled={submitting}
-          style={{ padding: "0.5rem 1.25rem", background: "#3b82f6", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
+          style={{ padding: "0.5rem 1.25rem", background: "#22c55e", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}
         >
           {submitting ? "..." : "Dodaj"}
         </button>
